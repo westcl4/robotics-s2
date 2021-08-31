@@ -18,7 +18,7 @@ void setup() {
   compass.init();
   compass.enableDefault();
   compass.read();
-  delay(500);
+  delay(1000);
   new_tap_value = compass.a.z;
   gyro.init();
   gyro.enableDefault();

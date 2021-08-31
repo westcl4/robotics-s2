@@ -18,7 +18,7 @@ void setup() {
   compass.init();
   compass.enableDefault();
   compass.read();
-  delay(500);
+  delay(1000);
   new_tap_value = compass.a.z;
   gyro.init();
   gyro.enableDefault();
@@ -40,13 +40,16 @@ void loop() {
   float diff = (new_tap_value - old_tap_value);
   Serial.println(diff);
 
-  if (diff >= 1500)
-  {
-    backup(100);
-    delay(10000);
-  } else
+  if (diff <= 1750)
   {
     drive_forward(100);
+  } else
+  {
+    
+    backup(100);
+    delay(500);
+    backup(0);
+    delay (9999);
   }
 
 }
@@ -60,5 +63,5 @@ void drive_forward(int botSpeed) {
 }
 
 void backup(int botSpeed) {
-  motors.setSpeeds - botSpeed, -botSpeed;
+  motors.setSpeeds(-(botSpeed), -(botSpeed));
 }
