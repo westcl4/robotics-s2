@@ -45,21 +45,15 @@ void loop() {
     drive_forward(100);
   } else
   {
-    
     backup(100);
     delay(500);
     backup(0);
     delay (9999);
   }
-
 }
 
 void drive_forward(int botSpeed) {
   motors.setSpeeds(botSpeed, botSpeed);
-  //  delay(stopTime);
-  //  motors.setSpeeds(0, 0);
-  //  tap_flag = false;
-  //  return;
 }
 
 void backup(int botSpeed) {
