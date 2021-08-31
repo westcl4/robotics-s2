@@ -26,7 +26,7 @@ void setup() {
   Wire.begin();
   compass.init();
   compass.enableDefault();
-  delay(5000);
+  //delay(5000);
   compass.read();
   new_tap_value = compass.a.z;
   gyro.init();
@@ -37,18 +37,22 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  
+
   //This function starts the robot- tap to start using the built in gyro
-  //gyroread(tap_flag, false);
-  
+  gyroread();
   //linesensors(sensor_values);
-  drive_forward(100);
+  if(gyroread == true){
+    drive_forward(100);
+    gyroread == false;
+    return;
+  }
+  
 }
 
 boolean gyroread() {
   compass.read(); //both accelerometer and compass
 
-    gyro.read();
+  gyro.read();
   Serial.print(gyro.g.x);
   Serial.print(gyro.g.y);
   Serial.print(gyro.g.z);
@@ -56,38 +60,41 @@ boolean gyroread() {
 
   old_tap_value = new_tap_value;
   new_tap_value = compass.a.z;
-  
+
   float diff = (new_tap_value - old_tap_value);
   Serial.println(diff);
-  
+
   if (diff > 1500)
   {
     tap_flag = true;
-    }
+  }
 
   if (tap_flag == true)
   {
     drive_forward(100);
-    }
+  }
   delay(100);
   return tap_flag;
 }
 
 void drive_forward(int speed) {
   motors.setSpeeds (speed, speed);
+  delay(1000);
+  motors.setSpeeds(0,0);
+  return;
 }
 
 int linesensors() {
   unsigned int sensor_values[8];
   reflectanceSensors.read(sensor_values);
-  
+
   for (int i = 0; i < NUM_SENSORS; i++)
   {
     Serial.print(sensor_values[i]);
     Serial.print('\t');
-    }
+  }
   Serial.println("");
-  
+
   delay(250);
   return sensor_values[8];
 }
