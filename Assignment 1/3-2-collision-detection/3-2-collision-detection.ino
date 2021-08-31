@@ -11,7 +11,6 @@ float old_tap_value = 0;
 float new_tap_value = 0;
 boolean collision_detected = false;
 
-
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
@@ -24,8 +23,6 @@ void setup() {
   gyro.init();
   gyro.enableDefault();
 }
-
-
 
 void loop() {
   // put your main code here, to run repeatedly:
@@ -43,14 +40,15 @@ void loop() {
   float diff = (new_tap_value - old_tap_value);
   Serial.println(diff);
 
-  difference = diff;
-
-  if (difference >= 1500)
+  if (diff >= 1500)
   {
-    backup();
+    backup(100);
     delay(10000);
+  } else
+  {
+    drive_forward(100);
   }
-  drive_forward(100);
+
 }
 
 void drive_forward(int botSpeed) {
@@ -61,6 +59,6 @@ void drive_forward(int botSpeed) {
   //  return;
 }
 
-void backup() {
-
+void backup(int botSpeed) {
+  motors.setSpeeds - botSpeed, -botSpeed;
 }
