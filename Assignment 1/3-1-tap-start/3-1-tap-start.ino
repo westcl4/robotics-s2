@@ -6,7 +6,7 @@ ZumoMotors motors;
 LSM303 compass;
 L3G gyro;
 
-int speed = 150;
+int forwardSpeed, stopTime;
 float old_tap_value = 0;
 float new_tap_value = 0;
 boolean tap_flag = false;
@@ -18,14 +18,11 @@ void setup() {
   compass.init();
   compass.enableDefault();
   compass.read();
-  delay(5000);
+  delay(500);
   new_tap_value = compass.a.z;
   gyro.init();
   gyro.enableDefault();
-
-
 }
-
 
 void loop() {
   // put your main code here, to run repeatedly:
@@ -50,11 +47,14 @@ void loop() {
 
   if (tap_flag == true)
   {
-    drive_forward(100);
+    drive_forward(100, 1000);
   }
 }
-void drive_forward(int speed) {
-  motors.setSpeeds(speed, speed);
-  delay(1000);
+
+void drive_forward(int forwardSpeed, int stopTime) {
+  motors.setSpeeds(forwardSpeed, forwardSpeed);
+  delay(stopTime);
   motors.setSpeeds(0, 0);
+  tap_flag = false;
+  return;
 }
