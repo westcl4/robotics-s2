@@ -28,7 +28,7 @@ void loop() {
   // put your main code here, to run repeatedly:
   compass.read();
   gyro.read();
-
+ 
   Serial.print(gyro.g.x);
   Serial.print(gyro.g.y);
   Serial.print(gyro.g.z);
